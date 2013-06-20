@@ -16,68 +16,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class DBUtil {
-    public static String DIVER_NAME = "com.mysql.jdbc.Driver";
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
+    public static String DRIVERNAME = "com.mysql.jdbc.Driver";
 
-    public boolean checkTableExist(CodeVo codeVo) {
-        boolean flag = false;
-
-        try {
-            readTable(codeVo);
-            if (resultSet != null) {
-                resultSet.last();
-                int fieldNum = resultSet.getRow();
-                int n = fieldNum;
-                if (n > 0) {
-                    flag = true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close(connection, preparedStatement, resultSet);
-        }
-        return flag;
-    }
-
-    public List<Column> readTableColumn(CodeVo codeVo) {
-        List<Column> result = new ArrayList<Column>();
-        try {
-            readTable(codeVo);
-            while (resultSet.next()) {
-                Column column = new Column();
-                column.setFieldName(formatField(resultSet.getString(1).toLowerCase()));
-
-                column.setFieldDbName(resultSet.getString(1).toUpperCase());
-                column.setFieldType(formatField(resultSet.getString(2).toLowerCase()));
-
-                column.setPrecision(resultSet.getString(4));
-                column.setScale(resultSet.getString(5));
-                result.add(column);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close(connection, preparedStatement, resultSet);
-        }
-        return result;
-    }
-
-    void readTable(CodeVo codeVo) throws ClassNotFoundException, SQLException {
-        Class.forName(DIVER_NAME);
-        connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("select column_name,data_type,column_comment,0,0,character_maximum_length from information_schema.columns where table_name = '");
-        sql.append(codeVo.getTableName());
-        sql.append("'");
-        preparedStatement = connection.prepareStatement(sql.toString());
-        resultSet = preparedStatement.executeQuery();
-    }
-
-    void close(Connection connection, Statement stmt, ResultSet rs) {
+    public static void close(Connection connection, Statement stmt, ResultSet rs) {
         if (connection != null) {
             try {
                 connection.close();
@@ -110,30 +51,30 @@ public class DBUtil {
         return field;
     }
 
-    private String formatDataType(String dataType, String precision, String scale) {
+    public static String formatDataType(String dataType, String precision, String scale) {
         if (dataType.contains("char"))
-            dataType = "java.lang.String";
+            dataType = "String";
         else if (dataType.contains("int"))
-            dataType = "java.lang.Integer";
+            dataType = "Integer";
         else if (dataType.contains("float"))
-            dataType = "java.lang.Float";
+            dataType = "Float";
         else if (dataType.contains("double"))
-            dataType = "java.lang.Double";
+            dataType = "Double";
         else if (dataType.contains("number")) {
             if ((StringUtils.isNotBlank(scale)) && (Integer.parseInt(scale) > 0))
-                dataType = "java.math.BigDecimal";
+                dataType = "BigDecimal";
             else if ((StringUtils.isNotBlank(precision)) && (Integer.parseInt(precision) > 6))
-                dataType = "java.lang.Long";
+                dataType = "Long";
             else
-                dataType = "java.lang.Integer";
+                dataType = "Integer";
         } else if (dataType.contains("decimal"))
             dataType = "BigDecimal";
         else if (dataType.contains("date"))
-            dataType = "java.util.Date";
+            dataType = "Date";
         else if (dataType.contains("time"))
-            dataType = "java.sql.Timestamp";
+            dataType = "Timestamp";
         else if (dataType.contains("clob"))
-            dataType = "java.sql.Clob";
+            dataType = "Clob";
         else {
             dataType = "java.lang.Object";
         }

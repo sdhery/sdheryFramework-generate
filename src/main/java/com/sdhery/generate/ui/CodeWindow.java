@@ -3,6 +3,7 @@ package com.sdhery.generate.ui;
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
 import com.sdhery.generate.bean.CodeVo;
+import com.sdhery.generate.service.GenerateService;
 import com.sdhery.generate.util.DBUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -245,13 +246,11 @@ public class CodeWindow extends JFrame {
                 genPathTextField.requestFocus();
                 return;
             }
-
-            boolean tableExist = new DBUtil().checkTableExist(codeVo);
-            if(tableExist){
-                try{
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+            GenerateService generateService = new GenerateService();
+            boolean result = generateService.generateCode(codeVo);
+            if(result){
+                showLabel.setForeground(Color.red);
+                showLabel.setText("生成成功");
             }else{
                 showLabel.setForeground(Color.red);
                 showLabel.setText("数据库中的表不存在！");

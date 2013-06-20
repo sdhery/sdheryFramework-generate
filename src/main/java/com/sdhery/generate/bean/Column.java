@@ -10,9 +10,10 @@ package com.sdhery.generate.bean;
 public class Column {
     private String fieldDbName;
     private String fieldName;
-    private String fieldType;
+    private String fieldType;//字段java类型
     private String precision;
     private String scale;
+    private String setName;
 
     public String getFieldDbName() {
         return fieldDbName;
@@ -52,5 +53,13 @@ public class Column {
 
     public void setScale(String scale) {
         this.scale = scale;
+    }
+
+    public String getSetName() {
+        return setName;
+    }
+
+    public void setSetName(String setName) {
+        this.setName = setName;
     }
 }
