@@ -5,6 +5,7 @@ import com.sdhery.generate.bean.Column;
 import com.sdhery.generate.dao.GenerateDao;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -18,6 +19,8 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class GenerateService {
+    static String DOMAINPATH = "/domain";
+    static String DOMAINTEMPLATEFILENAME="domain.ftl";
     /**
      * 当为假时表示要生成的表不存在，真是运行正常无错误
      *
@@ -45,20 +48,25 @@ public class GenerateService {
         data.put("nowDate", new Date());
         data.put("columnList", columntList);
         try {
-            Configuration cfg = getConfiguration();
             //实体类生成开始
-            Template temp = cfg.getTemplate("domain.ftl");
-            File makedir = new File(codeVo.getGetPath() + "/"+codeVo.getPackageValue().replace(".", "/")+ "/domain");
-            FileUtils.forceMkdir(makedir);//目录不存在，利用FileUtils工具类自动创建
-            Writer out = new OutputStreamWriter(new FileOutputStream(codeVo.getGetPath() + "/"+codeVo.getPackageValue().replace(".", "/")  + "/domain/"+ codeVo.getDomain()+".java"));
-            temp.process(data, out);
-            out.flush();
+            String basePath = codeVo.getGetPath() + "/"+codeVo.getPackageValue().replace(".", "/");
+            generateFile(DOMAINTEMPLATEFILENAME,basePath,basePath+DOMAINPATH,codeVo.getDomain(),".java",data);
             //实体类生成结束
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    void generateFile(String templateFileName,String basePath,String classPath,String className,String extension,Map data) throws IOException, TemplateException {
+        Configuration cfg = getConfiguration();
+        //实体类生成开始
+        Template temp = cfg.getTemplate(templateFileName);
+        File makeDir = new File(classPath);
+        FileUtils.forceMkdir(makeDir);//目录不存在，利用FileUtils工具类自动创建
+        Writer out = new OutputStreamWriter(new FileOutputStream(classPath+"/"+className+extension));
+        temp.process(data, out);
+        out.flush();
+    }
     public Configuration getConfiguration()throws IOException {
         Configuration cfg = new Configuration();
         String path = getTemplatePath();
