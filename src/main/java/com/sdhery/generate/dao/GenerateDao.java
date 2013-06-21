@@ -3,6 +3,7 @@ package com.sdhery.generate.dao;
 import com.sdhery.generate.bean.CodeVo;
 import com.sdhery.generate.bean.Column;
 import com.sdhery.generate.util.DBUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -60,7 +61,7 @@ public class GenerateDao {
             Class.forName(DBUtil.DRIVERNAME);
             connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
             StringBuilder sql = new StringBuilder();
-            sql.append("select column_name,data_type,column_comment,0,0,character_maximum_length from information_schema.columns where table_name = '");
+            sql.append("select column_name,data_type,COLUMN_KEY,column_comment,character_maximum_length from information_schema.columns where table_name = '");
             sql.append(codeVo.getTableName());
             sql.append("'");
             preparedStatement = connection.prepareStatement(sql.toString());
@@ -68,14 +69,15 @@ public class GenerateDao {
 
             while (resultSet.next()) {
                 Column column = new Column();
-                String fieldName = DBUtil.formatField(resultSet.getString(1).toLowerCase());
-                column.setFieldName(DBUtil.formatField(resultSet.getString(1).toLowerCase()));
-
-                column.setFieldDbName(resultSet.getString(1).toUpperCase());
-                column.setPrecision(resultSet.getString(4));
-                column.setScale(resultSet.getString(5));
-                column.setSetName(fieldName.substring(0,1).toUpperCase()+fieldName.substring(1,fieldName.length()));
-                column.setFieldType(DBUtil.formatDataType(resultSet.getString(2).toLowerCase(), column.getPrecision(), column.getScale()));
+                String fieldName = DBUtil.formatField(resultSet.getString("column_name").toLowerCase());
+                column.setFieldName(fieldName);
+                String pk = resultSet.getString("COLUMN_KEY");
+                if (StringUtils.isNotBlank(pk) && pk.equals("PRI")) {
+                    column.setPri(true);
+                }
+                column.setFieldDbName(resultSet.getString("column_name"));
+                column.setSetName(fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1, fieldName.length()));
+                column.setFieldType(DBUtil.formatDataType(resultSet.getString("data_type").toLowerCase(), column.getPrecision(), column.getScale()));
                 result.add(column);
             }
         } catch (Exception e) {

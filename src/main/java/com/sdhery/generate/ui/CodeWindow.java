@@ -53,9 +53,13 @@ public class CodeWindow extends JFrame {
     JLabel genPathLabel = new JLabel();
     JTextField genPathTextField = new JTextField();
 
+    JLabel genConfigPathLabel = new JLabel();
+    JTextField genConfigPathTextField = new JTextField();
+
     JButton genButton = new JButton();
     JButton existButton = new JButton();
     JButton genPathButton = new JButton();
+    JButton genConfigPathButton = new JButton();
 
     public static void main(String[] args) {
         try {
@@ -117,19 +121,27 @@ public class CodeWindow extends JFrame {
         contentPanel.add(genPathTextField,new XYConstraints(160, 190, 200, -1));
         contentPanel.add(genPathButton,new XYConstraints(360, 190, 60, 18));
 
+        genConfigPathLabel.setText("生成配置文件的保存目录：");
+        genConfigPathButton.setText("选择");
+        genConfigPathTextField.setEditable(false);
+        contentPanel.add(genConfigPathLabel,new XYConstraints(0, 210, -1, -1));
+        contentPanel.add(genConfigPathTextField,new XYConstraints(160, 210, 200, -1));
+        contentPanel.add(genConfigPathButton,new XYConstraints(360, 210, 60, 18));
+
         genButton.setText("生成");
         existButton.setText("退出");
 
         existButton.addActionListener(new ExistButtonActionListener());
         genPathButton.addActionListener(new genPathButtonActionListener());
+        genConfigPathButton.addActionListener(new genConfigPathButtonActionListener());
         genButton.addActionListener(new GenButtonActionListener());
-        contentPanel.add(genButton,new XYConstraints(140, 220, -1, -1));
-        contentPanel.add(existButton,new XYConstraints(210, 220, -1, -1));
+        contentPanel.add(genButton,new XYConstraints(140, 250, -1, -1));
+        contentPanel.add(existButton,new XYConstraints(210, 250, -1, -1));
 
         setTitle("代码生成器");
         setVisible(true);
         setDefaultCloseOperation(3);
-        setSize(new Dimension(400, 300));
+        setSize(new Dimension(400, 360));
 
         setResizable(false);
         setLocationRelativeTo(getOwner());
@@ -161,6 +173,34 @@ public class CodeWindow extends JFrame {
                     file = new File(currentFilePath);
                     currentFileName = file.getAbsolutePath(); //完整路径
                     genPathTextField.setText(currentFileName);
+                } catch (NullPointerException npe) {
+                    String errorMsg = new String("status: Error by opening ");
+                    System.err.println(errorMsg);
+                }
+            }
+        }
+    }
+
+    class genConfigPathButtonActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String currentFilePath = null;
+            File path = new File(genConfigPathTextField.getText()).getParentFile();
+            JFileChooser jFileChooser = null;
+            if (path!=null && path.exists()) {
+                jFileChooser = new JFileChooser(path);
+            } else {
+                jFileChooser= new JFileChooser();
+            }
+            jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            File file = null;
+            String currentFileName = null;
+            int result = jFileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                currentFilePath = jFileChooser.getSelectedFile().getPath();
+                try {
+                    file = new File(currentFilePath);
+                    currentFileName = file.getAbsolutePath(); //完整路径
+                    genConfigPathTextField.setText(currentFileName);
                 } catch (NullPointerException npe) {
                     String errorMsg = new String("status: Error by opening ");
                     System.err.println(errorMsg);
@@ -244,6 +284,14 @@ public class CodeWindow extends JFrame {
                 showLabel.setForeground(Color.red);
                 showLabel.setText("生成文件的保存目录不能为空！");
                 genPathTextField.requestFocus();
+                return;
+            }
+            if(StringUtils.isNotBlank(genConfigPathTextField.getText())){
+                codeVo.setConfigPath(genConfigPathTextField.getText());
+            }else{
+                showLabel.setForeground(Color.red);
+                showLabel.setText("生成文件的保存目录不能为空！");
+                genConfigPathTextField.requestFocus();
                 return;
             }
             GenerateService generateService = new GenerateService();

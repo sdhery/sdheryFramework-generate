@@ -14,6 +14,8 @@ public class Column {
     private String precision;
     private String scale;
     private String setName;
+    private boolean pri = false;//是否主键盘,默认为false不是主键
+
 
     public String getFieldDbName() {
         return fieldDbName;
@@ -61,5 +63,13 @@ public class Column {
 
     public void setSetName(String setName) {
         this.setName = setName;
+    }
+
+    public boolean isPri() {
+        return pri;
+    }
+
+    public void setPri(boolean pri) {
+        this.pri = pri;
     }
 }

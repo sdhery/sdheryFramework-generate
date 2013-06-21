@@ -17,6 +17,7 @@ public class CodeVo {
     String author;//作者
     String description;//描述
     String getPath;//生成路径
+    String configPath;//生成配置文件路径
     String lowerClassName;
 
     public String getJdbcUrl() {
@@ -97,5 +98,13 @@ public class CodeVo {
 
     public void setLowerClassName(String lowerClassName) {
         this.lowerClassName = lowerClassName;
+    }
+
+    public String getConfigPath() {
+        return configPath;
+    }
+
+    public void setConfigPath(String configPath) {
+        this.configPath = configPath;
     }
 }
