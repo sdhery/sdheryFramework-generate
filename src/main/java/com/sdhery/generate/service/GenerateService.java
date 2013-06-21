@@ -50,14 +50,14 @@ public class GenerateService {
         try {
             //实体类生成开始
             String basePath = codeVo.getGetPath() + "/"+codeVo.getPackageValue().replace(".", "/");
-            generateFile(DOMAINTEMPLATEFILENAME,basePath,basePath+DOMAINPATH,codeVo.getDomain(),".java",data);
+            generateFile(DOMAINTEMPLATEFILENAME,basePath+DOMAINPATH,codeVo.getDomain(),".java",data);
             //实体类生成结束
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    void generateFile(String templateFileName,String basePath,String classPath,String className,String extension,Map data) throws IOException, TemplateException {
+    void generateFile(String templateFileName,String classPath,String className,String extension,Map data) throws IOException, TemplateException {
         Configuration cfg = getConfiguration();
         //实体类生成开始
         Template temp = cfg.getTemplate(templateFileName);
