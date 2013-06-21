@@ -17,6 +17,7 @@ public class CodeVo {
     String author;//作者
     String description;//描述
     String getPath;//生成路径
+    String lowerClassName;
 
     public String getJdbcUrl() {
         return jdbcUrl;
@@ -88,5 +89,13 @@ public class CodeVo {
 
     public void setGetPath(String getPath) {
         this.getPath = getPath;
+    }
+
+    public String getLowerClassName() {
+        return domain.substring(0,1).toLowerCase()+domain.substring(1,domain.length());
+    }
+
+    public void setLowerClassName(String lowerClassName) {
+        this.lowerClassName = lowerClassName;
     }
 }

@@ -20,7 +20,15 @@ import java.util.*;
  */
 public class GenerateService {
     static String DOMAINPATH = "/domain";
+    static String IDAOPATH = "/dao";
+    static String DAOPATH = "/dao/impl";
+    static String ISERVICEPATH = "/service";
+    static String SERVICEPATH = "/service/impl";
     static String DOMAINTEMPLATEFILENAME="domain.ftl";
+    static String IDAOTEFILENAME="IDao.ftl";
+    static String DAOTEMPLATEFILENAME="Dao.ftl";
+    static String ISERVICETEFILENAME="IService.ftl";
+    static String SERVICETEFILENAME="Service.ftl";
     /**
      * 当为假时表示要生成的表不存在，真是运行正常无错误
      *
@@ -48,10 +56,18 @@ public class GenerateService {
         data.put("nowDate", new Date());
         data.put("columnList", columntList);
         try {
-            //实体类生成开始
+            //实体类开始
             String basePath = codeVo.getGetPath() + "/"+codeVo.getPackageValue().replace(".", "/");
             generateFile(DOMAINTEMPLATEFILENAME,basePath+DOMAINPATH,codeVo.getDomain(),".java",data);
-            //实体类生成结束
+            //实体类结束
+            //数据库开始
+            generateFile(IDAOTEFILENAME,basePath+IDAOPATH,"I"+codeVo.getDomain()+"Dao",".java",data);
+            generateFile(DAOTEMPLATEFILENAME,basePath+DAOPATH,codeVo.getDomain()+"Dao",".java",data);
+            //数据库结束
+            //业务类开始
+            generateFile(ISERVICETEFILENAME,basePath+ISERVICEPATH,"I"+codeVo.getDomain()+"Service",".java",data);
+            generateFile(SERVICETEFILENAME,basePath+SERVICEPATH,codeVo.getDomain()+"Service",".java",data);
+            //业务类结束
         } catch (Exception e) {
             e.printStackTrace();
         }
