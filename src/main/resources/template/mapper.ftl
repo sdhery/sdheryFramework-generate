@@ -11,16 +11,16 @@
     <sql id="Base_Column_List"><#list columnList as column>${column.fieldDbName}<#if column_has_next>,</#if></#list></sql>
 
     <insert id="insert" parameterType="${codeVo.packageValue}.domain.${codeVo.domain}">
-        insert into ${codeVo.tableName}(<#list columnList as column>${column.fieldDbName}<#if column_has_next>,</#if></#list>) values (<#list columnList as column>#{fieldName}<#if column_has_next>,</#if></#list>)
+        insert into ${codeVo.tableName}(<#list columnList as column>${column.fieldDbName}<#if column_has_next>,</#if></#list>) values (<#list columnList as column>${'#\{'}${column.fieldName}${'}'}<#if column_has_next>,</#if></#list>)
     </insert>
 
     <select id="getById" resultMap="BaseResultMap" resultType="java.lang.Integer">
-        SELECT <include refid="Base_Column_List" /> FROM ${codeVo.tableName} where <#list columnList as column><#if column.pri>${column.fieldDbName}</#if></#list> = #{id}
+        SELECT <include refid="Base_Column_List" /> FROM ${codeVo.tableName} where <#list columnList as column><#if column.pri=true>${column.fieldDbName}</#if></#list> = ${'#\{'}${'id'}${'}'}
     </select>
 
     <update id="update" parameterType="${codeVo.packageValue}.domain.${codeVo.domain}">
-        UPDATE ${codeVo.tableName} where <#list columnList as column><#if column.pri>${column.fieldDbName}=${column.fieldName}</#if></#list>
+        UPDATE ${codeVo.tableName} where <#list columnList as column><#if column.pri=true>${column.fieldDbName}=${column.fieldName}</#if></#list>
     </update>
 
-    <delete id="deleteById" parameterType="java.lang.Integer">DELETE FROM ${codeVo.tableName} WHERE <#list columnList as column><#if column.pri>${column.fieldDbName}</#if></#list> = #{id}</delete>
+    <delete id="deleteById" parameterType="java.lang.Integer">DELETE FROM ${codeVo.tableName} WHERE <#list columnList as column><#if column.pri=true>${column.fieldDbName}</#if></#list> = ${'#\{'}${'id'}${'}'}</delete>
 </mapper>

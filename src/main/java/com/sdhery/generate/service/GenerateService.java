@@ -67,6 +67,7 @@ public class GenerateService {
         try {
             //实体类开始
             String basePath = codeVo.getGetPath() + "/" + codeVo.getPackageValue().replace(".", "/");
+            String configPath = codeVo.getConfigPath() + "/";
             generateFile(DOMAINTEMPLATEFILENAME, basePath + DOMAINPATH, codeVo.getDomain(), ".java", data);
             //实体类结束
             //数据库开始
@@ -79,17 +80,17 @@ public class GenerateService {
             //业务类结束
             //配置文件开始
             //log4j
-            generateFile(LOG4JTEFILENAME, "/config", "log4j", ".properties", data);
+            generateFile(LOG4JTEFILENAME, configPath + "/config", "log4j", ".properties", data);
             //datasource配置
-            generateFile(DATASOURCETEFILENAME, CONFIGPATH, "applicationContext-datasource", ".xml", data);
+            generateFile(DATASOURCETEFILENAME, configPath + CONFIGPATH, "applicationContext-datasource", ".xml", data);
             //mybatis配置
-            generateFile(MYBATISTEFILENAME, CONFIGPATH, "applicationContext-myBatis", ".xml", data);
+            generateFile(MYBATISTEFILENAME, configPath + CONFIGPATH, "applicationContext-myBatis", ".xml", data);
             //resource配置
-            generateFile(RESOURCETEFILENAME, CONFIGPATH, "applicationContext-resource", ".xml", data);
+            generateFile(RESOURCETEFILENAME, configPath + CONFIGPATH, "applicationContext-resource", ".xml", data);
             //service配置
-            generateFile(SERVICECONFIGTEFILENAME, CONFIGPATH, "applicationContext-service", ".xml", data);
+            generateFile(SERVICECONFIGTEFILENAME, configPath + CONFIGPATH, "applicationContext-service", ".xml", data);
             //mapper配置
-            generateFile(MAPPERTEFILENAME, CONFIGMAPPERPATH, codeVo.getDomain() + "Dao", ".xml", data);
+            generateFile(MAPPERTEFILENAME, configPath + CONFIGMAPPERPATH, codeVo.getDomain() + "Dao", ".xml", data);
             //配置文件结束
         } catch (Exception e) {
             e.printStackTrace();
