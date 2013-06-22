@@ -24,8 +24,10 @@ public class GenerateService {
     static String DAOPATH = "/dao/impl";
     static String ISERVICEPATH = "/service";
     static String SERVICEPATH = "/service/impl";
-    static String CONFIGPATH = "/config/spring";
+    static String CONFIGPATH = "/config";
+    static String CONFIGSPRINGPATH = "/config/spring";
     static String CONFIGMAPPERPATH = "/config/mapper";
+
     static String DOMAINTEMPLATEFILENAME = "domain.ftl";
     static String IDAOTEFILENAME = "IDao.ftl";
     static String DAOTEMPLATEFILENAME = "Dao.ftl";
@@ -37,6 +39,8 @@ public class GenerateService {
     static String RESOURCETEFILENAME = "resource.ftl";
     static String SERVICECONFIGTEFILENAME = "serviceConfig.ftl";
     static String MAPPERTEFILENAME = "mapper.ftl";
+    static String JDBCPROPERTIESTEFILENAME = "jdbcProperties.ftl";
+    static String MYBATISCONFIGTEFILENAME = "mybatisConfig.ftl";
 
     /**
      * 当为假时表示要生成的表不存在，真是运行正常无错误
@@ -81,14 +85,18 @@ public class GenerateService {
             //配置文件开始
             //log4j
             generateFile(LOG4JTEFILENAME, configPath, "log4j", ".properties", data);
+            //jdbc
+            generateFile(JDBCPROPERTIESTEFILENAME, configPath+CONFIGPATH, "jdbc", ".properties", data);
+            //mybatis-config
+            generateFile(MYBATISCONFIGTEFILENAME, configPath+CONFIGPATH, "mybatis-config", ".xml", data);
             //datasource配置
-            generateFile(DATASOURCETEFILENAME, configPath + CONFIGPATH, "applicationContext-datasource", ".xml", data);
+            generateFile(DATASOURCETEFILENAME, configPath + CONFIGSPRINGPATH, "applicationContext-datasource", ".xml", data);
             //mybatis配置
-            generateFile(MYBATISTEFILENAME, configPath + CONFIGPATH, "applicationContext-myBatis", ".xml", data);
+            generateFile(MYBATISTEFILENAME, configPath + CONFIGSPRINGPATH, "applicationContext-myBatis", ".xml", data);
             //resource配置
-            generateFile(RESOURCETEFILENAME, configPath + CONFIGPATH, "applicationContext-resource", ".xml", data);
+            generateFile(RESOURCETEFILENAME, configPath + CONFIGSPRINGPATH, "applicationContext-resource", ".xml", data);
             //service配置
-            generateFile(SERVICECONFIGTEFILENAME, configPath + CONFIGPATH, "applicationContext-service", ".xml", data);
+            generateFile(SERVICECONFIGTEFILENAME, configPath + CONFIGSPRINGPATH, "applicationContext-service", ".xml", data);
             //mapper配置
             generateFile(MAPPERTEFILENAME, configPath + CONFIGMAPPERPATH, codeVo.getDomain() + "Dao", ".xml", data);
             //配置文件结束
