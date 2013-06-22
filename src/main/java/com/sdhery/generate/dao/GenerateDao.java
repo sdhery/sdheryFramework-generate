@@ -29,21 +29,18 @@ public class GenerateDao {
         try {
             Class.forName(DBUtil.DRIVERNAME);
             connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
-            StringBuilder sql = new StringBuilder();
-            sql.append("select column_name,data_type,column_comment,0,0,character_maximum_length from information_schema.columns where table_name = '");
-            sql.append(codeVo.getTableName());
-            sql.append("'");
-            preparedStatement = connection.prepareStatement(sql.toString());
+            String sql = "select COUNT(1) num from information_schema.columns where table_name = ? and TABLE_SCHEMA = ? ";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,codeVo.getTableName());
+            preparedStatement.setString(2,codeVo.getDataBaseName());
             resultSet = preparedStatement.executeQuery();
-
-            if (resultSet != null) {
-                resultSet.last();
-                int fieldNum = resultSet.getRow();
-                int n = fieldNum;
-                if (n > 0) {
+            if (resultSet.next()) {
+                int count = resultSet.getInt("num");
+                if(count>0){
                     flag = true;
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -60,11 +57,10 @@ public class GenerateDao {
         try {
             Class.forName(DBUtil.DRIVERNAME);
             connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
-            StringBuilder sql = new StringBuilder();
-            sql.append("select column_name,data_type,COLUMN_KEY,column_comment,character_maximum_length from information_schema.columns where table_name = '");
-            sql.append(codeVo.getTableName());
-            sql.append("'");
+            String sql ="select column_name,data_type,COLUMN_KEY,column_comment,character_maximum_length from information_schema.columns where table_name = ? and TABLE_SCHEMA = ? ";
             preparedStatement = connection.prepareStatement(sql.toString());
+            preparedStatement.setString(1,codeVo.getTableName());
+            preparedStatement.setString(2,codeVo.getDataBaseName());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

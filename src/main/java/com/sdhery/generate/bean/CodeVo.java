@@ -11,6 +11,7 @@ public class CodeVo {
     String jdbcUrl;//数据库连接
     String dataBaseUserName;//数据库用户名
     String dataBasePW;//数据库密码
+    String dataBaseName;//数据库名字
     String tableName;//表
     String packageValue;//包名
     String domain;//包路径
@@ -106,5 +107,13 @@ public class CodeVo {
 
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
+    }
+
+    public String getDataBaseName() {
+        return dataBaseName;
+    }
+
+    public void setDataBaseName(String dataBaseName) {
+        this.dataBaseName = dataBaseName;
     }
 }

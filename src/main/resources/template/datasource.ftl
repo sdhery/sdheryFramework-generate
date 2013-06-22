@@ -13,10 +13,10 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${'driver'}"/>
-        <property name="url" value="${'url'}"/>
-        <property name="username" value="${'user'}"/>
-        <property name="password" value="${'password'}"/>
+        <property name="driverClassName" value="${'$\{'}${'driver'}${'}'}"/>
+        <property name="url" value="${'$\{'}${'url'}${'}'}"/>
+        <property name="username" value="${'$\{'}${'user'}${'}'}"/>
+        <property name="password" value="${'$\{'}${'password'}${'}'}"/>
         <property name="poolPreparedStatements" value="false"/>
         <property name="removeAbandoned" value="false"/>
         <property name="defaultAutoCommit" value="true"/>

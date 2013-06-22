@@ -19,7 +19,7 @@
     </select>
 
     <update id="update" parameterType="${codeVo.packageValue}.domain.${codeVo.domain}">
-        UPDATE ${codeVo.tableName} where <#list columnList as column><#if column.pri=true>${column.fieldDbName}=${column.fieldName}</#if></#list>
+        UPDATE ${codeVo.tableName} set <#list columnList as column><#if column.pri==false>${column.fieldDbName}=${'#\{'}${column.fieldName}${'}'}<#if column_has_next>,</#if></#if></#list> where <#list columnList as column><#if column.pri=true>${column.fieldDbName}=${'#\{'}${column.fieldName}${'}'}</#if></#list>
     </update>
 
     <delete id="deleteById" parameterType="java.lang.Integer">DELETE FROM ${codeVo.tableName} WHERE <#list columnList as column><#if column.pri=true>${column.fieldDbName}</#if></#list> = ${'#\{'}${'id'}${'}'}</delete>

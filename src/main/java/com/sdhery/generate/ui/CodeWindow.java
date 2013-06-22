@@ -29,6 +29,9 @@ public class CodeWindow extends JFrame {
     JLabel jdbcUrlLabel = new JLabel();
     JTextField jdbcTextField = new JTextField();
 
+    JLabel dataBaseNameLabel = new JLabel();
+    JTextField dataBaseNameTextField = new JTextField();
+
     JLabel dataBaseUserNameLabel = new JLabel();
     JTextField dataBaseUserNameTextField = new JTextField();
 
@@ -86,47 +89,51 @@ public class CodeWindow extends JFrame {
         contentPanel.add(jdbcUrlLabel,new XYConstraints(0, 30, -1, -1));
         contentPanel.add(jdbcTextField,new XYConstraints(160, 30, 200, -1));
 
+        dataBaseNameLabel.setText("数据库名称：");
+        contentPanel.add(dataBaseNameLabel,new XYConstraints(0, 50, -1, -1));
+        contentPanel.add(dataBaseNameTextField,new XYConstraints(160, 50, 200, -1));
+
         dataBaseUserNameLabel.setText("数据库用户名：");
-        contentPanel.add(dataBaseUserNameLabel,new XYConstraints(0, 50, -1, -1));
-        contentPanel.add(dataBaseUserNameTextField,new XYConstraints(160, 50, 200, -1));
+        contentPanel.add(dataBaseUserNameLabel,new XYConstraints(0, 70, -1, -1));
+        contentPanel.add(dataBaseUserNameTextField,new XYConstraints(160, 70, 200, -1));
 
         dataBasePWLabel.setText("数据库密码：");
-        contentPanel.add(dataBasePWLabel,new XYConstraints(0, 70, -1, -1));
-        contentPanel.add(dataBasePWTextField,new XYConstraints(160, 70, 200, -1));
-
-        packageLabel.setText("包名（小写）：");
-        contentPanel.add(packageLabel,new XYConstraints(0, 90, -1, -1));
-        contentPanel.add(packageTextField,new XYConstraints(160, 90, 200, -1));
-
-        entityLabel.setText("实体类名（首字母大写）：");
-        contentPanel.add(entityLabel,new XYConstraints(0, 110, -1, -1));
-        contentPanel.add(entityTextField,new XYConstraints(160, 110, 200, -1));
+        contentPanel.add(dataBasePWLabel,new XYConstraints(0, 90, -1, -1));
+        contentPanel.add(dataBasePWTextField,new XYConstraints(160, 90, 200, -1));
 
         tableNameLabel.setText("表名：");
-        contentPanel.add(tableNameLabel,new XYConstraints(0, 130, -1, -1));
-        contentPanel.add(tableNameTextField,new XYConstraints(160, 130, 200, -1));
+        contentPanel.add(tableNameLabel,new XYConstraints(0, 110, -1, -1));
+        contentPanel.add(tableNameTextField,new XYConstraints(160, 110, 200, -1));
+
+        packageLabel.setText("包名（小写）：");
+        contentPanel.add(packageLabel,new XYConstraints(0, 130, -1, -1));
+        contentPanel.add(packageTextField,new XYConstraints(160, 130, 200, -1));
+
+        entityLabel.setText("实体类名（首字母大写）：");
+        contentPanel.add(entityLabel,new XYConstraints(0, 150, -1, -1));
+        contentPanel.add(entityTextField,new XYConstraints(160, 150, 200, -1));
 
         authorLabel.setText("作者：");
-        contentPanel.add(authorLabel,new XYConstraints(0, 150, -1, -1));
-        contentPanel.add(authorTextField,new XYConstraints(160, 150, 200, -1));
+        contentPanel.add(authorLabel,new XYConstraints(0, 170, -1, -1));
+        contentPanel.add(authorTextField,new XYConstraints(160, 170, 200, -1));
 
         descriptionLabel.setText("描述：");
-        contentPanel.add(descriptionLabel,new XYConstraints(0, 170, -1, -1));
-        contentPanel.add(descriptionTextField,new XYConstraints(160, 170, 200, -1));
+        contentPanel.add(descriptionLabel,new XYConstraints(0, 190, -1, -1));
+        contentPanel.add(descriptionTextField,new XYConstraints(160, 190, 200, -1));
 
         genPathLabel.setText("生成文件的保存目录：");
         genPathButton.setText("选择");
         genPathTextField.setEditable(false);
-        contentPanel.add(genPathLabel,new XYConstraints(0, 190, -1, -1));
-        contentPanel.add(genPathTextField,new XYConstraints(160, 190, 200, -1));
-        contentPanel.add(genPathButton,new XYConstraints(360, 190, 60, 18));
+        contentPanel.add(genPathLabel,new XYConstraints(0, 210, -1, -1));
+        contentPanel.add(genPathTextField,new XYConstraints(160, 210, 200, -1));
+        contentPanel.add(genPathButton,new XYConstraints(360, 210, 60, 18));
 
         genConfigPathLabel.setText("生成配置文件的保存目录：");
         genConfigPathButton.setText("选择");
         genConfigPathTextField.setEditable(false);
-        contentPanel.add(genConfigPathLabel,new XYConstraints(0, 210, -1, -1));
-        contentPanel.add(genConfigPathTextField,new XYConstraints(160, 210, 200, -1));
-        contentPanel.add(genConfigPathButton,new XYConstraints(360, 210, 60, 18));
+        contentPanel.add(genConfigPathLabel,new XYConstraints(0, 230, -1, -1));
+        contentPanel.add(genConfigPathTextField,new XYConstraints(160, 230, 200, -1));
+        contentPanel.add(genConfigPathButton,new XYConstraints(360, 230, 60, 18));
 
         genButton.setText("生成");
         existButton.setText("退出");
@@ -135,13 +142,12 @@ public class CodeWindow extends JFrame {
         genPathButton.addActionListener(new genPathButtonActionListener());
         genConfigPathButton.addActionListener(new genConfigPathButtonActionListener());
         genButton.addActionListener(new GenButtonActionListener());
-        contentPanel.add(genButton,new XYConstraints(140, 250, -1, -1));
-        contentPanel.add(existButton,new XYConstraints(210, 250, -1, -1));
+        contentPanel.add(genButton,new XYConstraints(140, 270, -1, -1));
+        contentPanel.add(existButton,new XYConstraints(210, 270, -1, -1));
 
         setTitle("代码生成器");
         setVisible(true);
         setDefaultCloseOperation(3);
-        setSize(new Dimension(400, 360));
 
         setResizable(false);
         setLocationRelativeTo(getOwner());
@@ -219,6 +225,14 @@ public class CodeWindow extends JFrame {
                 showLabel.setForeground(Color.red);
                 showLabel.setText("数据库连接不能为空！");
                 jdbcTextField.requestFocus();
+                return;
+            }
+            if(StringUtils.isNotBlank(dataBaseNameTextField.getText())){
+                codeVo.setDataBaseName(dataBaseNameTextField.getText());
+            }else{
+                showLabel.setForeground(Color.red);
+                showLabel.setText("数据库名称不能为空！");
+                dataBaseNameTextField.requestFocus();
                 return;
             }
             if(StringUtils.isNotBlank(dataBaseUserNameTextField.getText())){
