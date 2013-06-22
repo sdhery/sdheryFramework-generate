@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${codeVo.packageValue}.dao.impl.SysUserDao">
+<mapper namespace="${codeVo.packageValue}.dao.impl.${codeVo.domain}Dao">
 
     <resultMap id="BaseResultMap" type="${codeVo.packageValue}.domain.${codeVo.domain}">
     <#list columnList as column>
