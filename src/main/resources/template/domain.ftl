@@ -12,7 +12,7 @@ import com.sdhery.module.core.domain.BaseEntity;
 public class ${codeVo.domain} extends BaseEntity {
 
 <#list columnList as column>
-    ${column.fieldType} ${column.fieldName};
+    ${column.fieldType} ${column.fieldName};<#if column.desc??>//${column.desc}</#if>
 </#list>
 
 <#list columnList as column>

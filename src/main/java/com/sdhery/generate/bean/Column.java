@@ -15,7 +15,7 @@ public class Column {
     private String scale;
     private String setName;
     private boolean pri = false;//是否主键盘,默认为false不是主键
-
+    private String desc;//字段描述
 
     public String getFieldDbName() {
         return fieldDbName;
@@ -71,5 +71,13 @@ public class Column {
 
     public void setPri(boolean pri) {
         this.pri = pri;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

@@ -31,12 +31,12 @@ public class GenerateDao {
             connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
             String sql = "select COUNT(1) num from information_schema.columns where table_name = ? and TABLE_SCHEMA = ? ";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,codeVo.getTableName());
-            preparedStatement.setString(2,codeVo.getDataBaseName());
+            preparedStatement.setString(1, codeVo.getTableName());
+            preparedStatement.setString(2, codeVo.getDataBaseName());
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt("num");
-                if(count>0){
+                if (count > 0) {
                     flag = true;
                 }
             }
@@ -57,16 +57,20 @@ public class GenerateDao {
         try {
             Class.forName(DBUtil.DRIVERNAME);
             connection = DriverManager.getConnection(codeVo.getJdbcUrl(), codeVo.getDataBaseUserName(), codeVo.getDataBasePW());
-            String sql ="select column_name,data_type,COLUMN_KEY,column_comment,character_maximum_length from information_schema.columns where table_name = ? and TABLE_SCHEMA = ? ";
+            String sql = "select column_name,data_type,COLUMN_KEY,column_comment,character_maximum_length from information_schema.columns where table_name = ? and TABLE_SCHEMA = ? ";
             preparedStatement = connection.prepareStatement(sql.toString());
-            preparedStatement.setString(1,codeVo.getTableName());
-            preparedStatement.setString(2,codeVo.getDataBaseName());
+            preparedStatement.setString(1, codeVo.getTableName());
+            preparedStatement.setString(2, codeVo.getDataBaseName());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Column column = new Column();
                 String fieldName = DBUtil.formatField(resultSet.getString("column_name").toLowerCase());
                 column.setFieldName(fieldName);
+                String desc = resultSet.getString("column_comment");
+                if (StringUtils.isNotBlank(desc)) {
+                    column.setDesc(desc);
+                }
                 String pk = resultSet.getString("COLUMN_KEY");
                 if (StringUtils.isNotBlank(pk) && pk.equals("PRI")) {
                     column.setPri(true);
