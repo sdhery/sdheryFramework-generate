@@ -34,21 +34,31 @@
 
     <build>
         <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2.1</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <mainClass>com.sdhery.generate.ui.CodeWindow</mainClass>
-            </configuration>
-        </plugin>
+            <plugin><!--将标签文件放在resources里的 META-INF文件-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration><!--配置不需要打包哪些文件-->
+                    <classesDirectory>target/classes/</classesDirectory>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.sdhery.generate.ui.CodeWindow</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
