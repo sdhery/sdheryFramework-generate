@@ -80,7 +80,7 @@ public class GenerateService {
             //业务类结束
             //配置文件开始
             //log4j
-            generateFile(LOG4JTEFILENAME, configPath + "/config", "log4j", ".properties", data);
+            generateFile(LOG4JTEFILENAME, configPath, "log4j", ".properties", data);
             //datasource配置
             generateFile(DATASOURCETEFILENAME, configPath + CONFIGPATH, "applicationContext-datasource", ".xml", data);
             //mybatis配置
