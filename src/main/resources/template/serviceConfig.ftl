@@ -12,6 +12,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
+
     <bean id="${codeVo.lowerClassName}Service" class="${codeVo.packageValue}.service.impl.${codeVo.domain}Service">
         <property name="idGenerator" ref="mysqlIDGenerator"/>
         <property name="${codeVo.lowerClassName}Dao" ref="${codeVo.lowerClassName}Dao"/>
