@@ -52,7 +52,7 @@ public class DBUtil {
     }
 
     public static String formatDataType(String dataType, String precision, String scale) {
-        if (dataType.contains("char"))
+        if (dataType.contains("char") || dataType.contains("longtext"))
             dataType = "String";
         else if (dataType.contains("int"))
             dataType = "Integer";

@@ -133,7 +133,6 @@ public class GenerateService {
 
     String getTemplatePath() {
         String path = getClassPath() + "/template";
-        ;
         return path;
     }
 }
