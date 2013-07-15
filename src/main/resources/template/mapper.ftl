@@ -14,7 +14,7 @@
         insert into ${codeVo.tableName}(<#list columnList as column>${column.fieldDbName}<#if column_has_next>,</#if></#list>) values (<#list columnList as column>${'#\{'}${column.fieldName}${'}'}<#if column_has_next>,</#if></#list>)
     </insert>
 
-    <select id="getById" resultMap="BaseResultMap" resultType="java.lang.Integer">
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT <include refid="Base_Column_List" /> FROM ${codeVo.tableName} where <#list columnList as column><#if column.pri=true>${column.fieldDbName}</#if></#list> = ${'#\{'}${'id'}${'}'}
     </select>
 
