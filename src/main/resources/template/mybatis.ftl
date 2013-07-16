@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
 
-    <bean id="${codeVo.lowerClassName}Dao" class="${codeVo.packageValue}.dao.impl.${codeVo.domain}Dao"/>
+    <bean id="${codeVo.lowerClassName}Dao" class="${codeVo.packageValue}.dao.impl.${codeVo.domain}Dao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
