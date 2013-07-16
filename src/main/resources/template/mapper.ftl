@@ -23,4 +23,48 @@
     </update>
 
     <delete id="deleteById" parameterType="java.lang.Integer">DELETE FROM ${codeVo.tableName} WHERE <#list columnList as column><#if column.pri=true>${column.fieldDbName}</#if></#list> = ${'#\{'}${'id'}${'}'}</delete>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="com.sdhery.module.core.commons.Condition">
+        select <if test="distinct">distinct</if> count(1) from ${codeVo.tableName} <if test="_parameter != null"><include refid="simpleConditionWhere"/></if>
+    </select>
+
+    <select id="search" resultMap="BaseResultMap" parameterType="com.sdhery.module.core.commons.Condition">
+        SELECT
+        <if test="distinct">distinct</if>
+        <include refid="Base_Column_List"/>
+        FROM ${codeVo.tableName}
+        <if test="_parameter != null">
+            <include refid="simpleConditionWhere"/>
+        </if>
+        <if test="orderByClause != null">order by ${'$\{'}orderByClause${'}'}</if>
+    </select>
+
+    <sql id="simpleConditionWhere">
+        <where>
+            <if test="valid">
+                <foreach collection="conditionItems" item="conditionItem" separator="or">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <choose>
+                            <when test="conditionItem.noValue">
+                                and ${'$\{'}conditionItem.condition${'}'}
+                            </when>
+                            <when test="conditionItem.singleValue">
+                                and ${'$\{'}conditionItem.condition${'}'} ${'#\{'}conditionItem.value${'}'}
+                            </when>
+                            <when test="conditionItem.betweenValue">
+                                and ${'$\{'}conditionItem.condition${'}'} ${'#\{'}conditionItem.value${'}'} and ${'#\{'}conditionItem.secondValue${'}'}
+                            </when>
+                            <when test="conditionItem.listValue">
+                                and ${'$\{'}conditionItem.condition${'}'}
+                                <foreach close=")" collection="conditionItem.value" item="listItem" open="("
+                                         separator=",">
+                                ${'#\{'}listItem${'}'}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </trim>
+                </foreach>
+            </if>
+        </where>
+    </sql>
 </mapper>
