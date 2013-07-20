@@ -1,8 +1,6 @@
 # DEBUG < INFO < WARN < ERROR < FATAL
 
 log4j.rootLogger=INFO, stdout
-#log4j.logger.net.inno=INFO, stdout
-#log4j.logger.net.inno=DEBUG, stdout
 #log4j.rootLogger=FATAL, stdout
 #log4j.rootLogger=WARN, stdout
 #log4j.rootLogger=INFO, stdout
